@@ -7,8 +7,7 @@ public class ParticipantMapper {
 
     public static Participant fromDtoToParticipant(ParticipantDTO participantDTO) {
         return Participant.builder()
-                .firstName(participantDTO.firstName())
-                .lastName(participantDTO.lastName())
+                .name(participantDTO.name())
                 .gproIdentifier(participantDTO.gproIdentifier())
                 .build();
     }

@@ -1,17 +1,22 @@
 package com.gprocompetitionsmanager.backend.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
+@Getter
 public class Registration {
     @Id
     @GeneratedValue
     private Long id;
 
-    private String season;
+    private Long season;
 
     @ManyToOne
     private Participant participant;

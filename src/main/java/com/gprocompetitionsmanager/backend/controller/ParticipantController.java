@@ -1,13 +1,11 @@
 package com.gprocompetitionsmanager.backend.controller;
 
 import com.gprocompetitionsmanager.backend.dto.ParticipantDTO;
-import com.gprocompetitionsmanager.backend.service.ParticipantService;
+import com.gprocompetitionsmanager.backend.entity.Registration;
+import com.gprocompetitionsmanager.backend.service.RegistrationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -16,11 +14,17 @@ import java.util.List;
 @RequestMapping("/api/participants")
 public class ParticipantController {
 
-    private final ParticipantService service;
+    private final RegistrationService service;
 
-    @PostMapping("/inscriptions")
-    public ResponseEntity<?> inscrireParticipants(@RequestBody List<ParticipantDTO> participants) {
-        service.registerParticipants(participants, 105);
-        return ResponseEntity.ok().build();
+    @PostMapping("/season/{season}/registrations")
+    public ResponseEntity<List<Registration>> registerParticipants(@PathVariable Long season, @RequestBody List<ParticipantDTO> participants) {
+        List<Registration> registrations = service.registerParticipants(season, participants);
+        return ResponseEntity.ok(registrations);
+    }
+
+    @PostMapping("/season/{season}/register")
+    public ResponseEntity<Registration> registerParticipant(@PathVariable Long season, @RequestBody ParticipantDTO participant) {
+        Registration registration = service.registerParticipant(season, participant);
+        return ResponseEntity.ok(registration);
     }
 }
