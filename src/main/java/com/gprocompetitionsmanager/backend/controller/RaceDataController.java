@@ -2,7 +2,10 @@ package com.gprocompetitionsmanager.backend.controller;
 
 import com.gprocompetitionsmanager.backend.client.GproApiClient;
 import com.gprocompetitionsmanager.backend.model.dto.Race;
+import com.gprocompetitionsmanager.backend.model.dto.RawDataRaceResponse;
 import com.gprocompetitionsmanager.backend.model.dto.StartingGrid;
+import com.gprocompetitionsmanager.backend.model.entity.RawDataRace;
+import com.gprocompetitionsmanager.backend.service.GproRawDataRaceService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +24,7 @@ import java.io.IOException;
 public class RaceDataController {
 
     private final GproApiClient gproApiClient;
+    private final GproRawDataRaceService gproRawDataRaceService;
 
     @GetMapping("/all-managers/season/{season}/race/{race}")
     public String getAllManagersRaceData(@PathVariable("season") String season, @PathVariable("race") String race) {
@@ -29,7 +33,7 @@ public class RaceDataController {
     }
 
     @GetMapping("/manager/{manager}/season/{season}/race/{race}")
-    public Mono<ResponseEntity<Race>> getManagerRaceData(@PathVariable("manager") int manager, @PathVariable("season") int season, @PathVariable("race") int gp) throws IOException {
+    public Mono<ResponseEntity<Race>> getManagerRaceData(@PathVariable("manager") Long manager, @PathVariable("season") Long season, @PathVariable("race") Long gp) throws IOException {
         log.info("getRaceData: manager={} season={} race={}", manager, season, gp);
         // TODO utiliser un service qui se base sur gproApiClient, mais pas le client directement
         // l'instruction ci-dessous est plus bas niveau et n'est là que pour faire des tests sur les requêtes et mappings
@@ -38,11 +42,20 @@ public class RaceDataController {
     }
 
     @GetMapping("/manager/{manager}/season/{season}/race/{race}/qualifs")
-    public Mono<ResponseEntity<StartingGrid>> getManagerQualifData(@PathVariable("manager") int manager, @PathVariable("season") int season, @PathVariable("race") int gp) throws IOException {
+    public Mono<ResponseEntity<StartingGrid>> getManagerQualifData(@PathVariable("manager") long manager, @PathVariable("season") Long season, @PathVariable("race") Long gp) throws IOException {
         log.info("getQualifData: manager={} season={} race={}", manager, season, gp);
         // TODO utiliser un service qui se base sur gproApiClient, mais pas le client directement
         // l'instruction ci-dessous est plus bas niveau et n'est là que pour faire des tests sur les requêtes et mappings
         return gproApiClient.getQualifData(season, gp, "Amateur - 77")
+                .map(ResponseEntity::ok);
+    }
+
+    @GetMapping("/season/{season}/race/{race}/group/{group}")
+    public Mono<ResponseEntity<RawDataRaceResponse>> getManagerRaceData(@PathVariable("season") Long season,
+                                                                        @PathVariable("race") Long gp,
+                                                                        @PathVariable("group") String group) throws IOException {
+        log.info("getGroupRaceData: season={} race={} group={}", season, gp, group);
+        return gproRawDataRaceService.getGroupRawDataRace(season, gp, group)
                 .map(ResponseEntity::ok);
     }
 }

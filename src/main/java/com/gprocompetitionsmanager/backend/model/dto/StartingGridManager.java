@@ -5,9 +5,9 @@ import lombok.Getter;
 
 @Getter
 public class StartingGridManager {
-    private String name;
-    private String pos;
     @JsonProperty("IDM")
     private Long idm;
+    private String name;
+    private String pos;
     private String lapTime;
 }

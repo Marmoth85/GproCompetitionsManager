@@ -1,4 +1,4 @@
-package com.gprocompetitionsmanager.backend.dto;
+package com.gprocompetitionsmanager.backend.model.dto;
 
 import lombok.Getter;
 

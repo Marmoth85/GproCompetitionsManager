@@ -1,7 +1,7 @@
 package com.gprocompetitionsmanager.backend.mapper;
 
-import com.gprocompetitionsmanager.backend.dto.ParticipantDTO;
-import com.gprocompetitionsmanager.backend.entity.Participant;
+import com.gprocompetitionsmanager.backend.model.dto.ParticipantDTO;
+import com.gprocompetitionsmanager.backend.model.entity.Participant;
 
 public class ParticipantMapper {
 

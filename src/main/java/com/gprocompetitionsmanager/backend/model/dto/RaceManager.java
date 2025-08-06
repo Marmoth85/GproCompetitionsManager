@@ -6,10 +6,10 @@ import lombok.Getter;
 @Getter
 public class RaceManager {
 
-    private String name;
-    private String pos;
     @JsonProperty("IDM")
     private Long idm;
+    private String name;
+    private String pos;
     private String raceTime;
 
 }
